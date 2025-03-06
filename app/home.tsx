@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, TextInput, A
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 
-
 const manhwa1 = require("../app/img/1.jpg");
 const manhwa2 = require("../app/img/2.jpg");
 const manhwa3 = require("../app/img/3.png");
@@ -34,7 +33,6 @@ const manhwa27 = require("../app/img/27.jpg");
 const manhwa28 = require("../app/img/28.jpg");
 const manhwa29 = require("../app/img/29.jpg");
 const manhwa30 = require("../app/img/30.jpg");
-
 
 const featuredManhwa = [
   { id: "1", title: "GREATEST STATE DEVELOPER", image: manhwa1 },
@@ -73,21 +71,16 @@ const HomeScreen = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
 
-  
   const handleLogout = async () => {
     try {
-      
       await AsyncStorage.removeItem("token");
-
-      
-      router.replace("/login"); 
+      router.replace("/login");
     } catch (error) {
       console.error("Logout error", error);
       Alert.alert("Logout failed", "Something went wrong while logging out.");
     }
   };
 
-  
   const filteredManhwa = featuredManhwa.filter((item) =>
     item.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -101,7 +94,6 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
-    
       <View style={styles.navbar}>
         <Text style={styles.appTitle}>READFLIX</Text>
         <TextInput
@@ -109,21 +101,19 @@ const HomeScreen = () => {
           placeholder="Search Manhwa"
           placeholderTextColor="#888"
           value={searchQuery}
-          onChangeText={setSearchQuery} 
+          onChangeText={setSearchQuery}
         />
       </View>
 
-    
       <FlatList
         data={filteredManhwa}
         renderItem={renderManhwaItem}
         keyExtractor={(item) => item.id}
-        numColumns={5} 
-        showsVerticalScrollIndicator={false} 
+        numColumns={2} // Updated to 2 columns per row
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.flatListContent}
       />
 
-      
       <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
         <Text style={styles.logoutText}>Logout</Text>
       </TouchableOpacity>
@@ -135,7 +125,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#000",  
+    backgroundColor: "#000",
   },
   navbar: {
     position: "absolute",
@@ -143,7 +133,7 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingHorizontal: 20,
     zIndex: 10,
-    backgroundColor: "rgba(0, 0, 0, 0.6)", 
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
     paddingBottom: 10,
     borderRadius: 8,
   },
@@ -164,17 +154,17 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   flatListContent: {
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    marginTop: 120, 
+    flexDirection: "column",
+    justifyContent: "space-between",
+    marginTop: 120,
   },
   manhwaItem: {
     flex: 1,
-    margin: 5, 
+    margin: 5,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 12,
-    backgroundColor: "#333", 
+    backgroundColor: "#333",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
@@ -182,8 +172,8 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   manhwaImage: {
-    width: 130, 
-    height: 180,
+    width: 160, // Adjusted for 2 per row
+    height: 220, // Adjusted height to fit the 2-column layout
     borderRadius: 8,
     resizeMode: "cover",
     marginBottom: 5,
@@ -192,13 +182,13 @@ const styles = StyleSheet.create({
     marginTop: 5,
     textAlign: "center",
     fontWeight: "bold",
-    color: "#fff", 
+    color: "#fff",
   },
   logoutButton: {
     position: "absolute",
     bottom: 20,
     right: 20,
-    backgroundColor: "#ff4d4d",  
+    backgroundColor: "#ff4d4d",
     paddingVertical: 15,
     paddingHorizontal: 20,
     borderRadius: 50,
@@ -209,7 +199,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   logoutText: {
-    color: "white",  
+    color: "white",
     fontWeight: "bold",
     fontSize: 18,
   },
