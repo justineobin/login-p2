@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, TextInput, A
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 
-// Import local images for Manhwa
+
 const manhwa1 = require("../app/img/1.jpg");
 const manhwa2 = require("../app/img/2.jpg");
 const manhwa3 = require("../app/img/3.png");
@@ -35,7 +35,7 @@ const manhwa28 = require("../app/img/28.jpg");
 const manhwa29 = require("../app/img/29.jpg");
 const manhwa30 = require("../app/img/30.jpg");
 
-// Dummy data for featured Manhwa (30 items)
+
 const featuredManhwa = [
   { id: "1", title: "GREATEST STATE DEVELOPER", image: manhwa1 },
   { id: "2", title: "SOLO LEVELING", image: manhwa2 },
@@ -71,23 +71,23 @@ const featuredManhwa = [
 
 const HomeScreen = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const router = useRouter(); // Router to navigate
+  const router = useRouter();
 
-  // Function to handle logout
+  
   const handleLogout = async () => {
     try {
-      // Remove token or session data from AsyncStorage
+      
       await AsyncStorage.removeItem("token");
 
-      // After successful logout, navigate to login screen
-      router.replace("/login"); // Make sure the path is correct
+      
+      router.replace("/login"); 
     } catch (error) {
       console.error("Logout error", error);
       Alert.alert("Logout failed", "Something went wrong while logging out.");
     }
   };
 
-  // Function to filter the Manhwa based on search query
+  
   const filteredManhwa = featuredManhwa.filter((item) =>
     item.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -101,7 +101,7 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* Sticky Navbar with Search Bar */}
+    
       <View style={styles.navbar}>
         <Text style={styles.appTitle}>READFLIX</Text>
         <TextInput
@@ -109,21 +109,21 @@ const HomeScreen = () => {
           placeholder="Search Manhwa"
           placeholderTextColor="#888"
           value={searchQuery}
-          onChangeText={setSearchQuery} // Update search query
+          onChangeText={setSearchQuery} 
         />
       </View>
 
-      {/* FlatList with filtered Manhwa */}
+    
       <FlatList
         data={filteredManhwa}
         renderItem={renderManhwaItem}
         keyExtractor={(item) => item.id}
-        numColumns={5} // Display 5 items per row
-        showsVerticalScrollIndicator={false} // Hide the vertical scroll indicator
+        numColumns={5} 
+        showsVerticalScrollIndicator={false} 
         contentContainerStyle={styles.flatListContent}
       />
 
-      {/* Floating Logout Button */}
+      
       <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
         <Text style={styles.logoutText}>Logout</Text>
       </TouchableOpacity>
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#000",  // Black background for dark theme
+    backgroundColor: "#000",  
   },
   navbar: {
     position: "absolute",
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingHorizontal: 20,
     zIndex: 10,
-    backgroundColor: "rgba(0, 0, 0, 0.6)", // Semi-transparent navbar
+    backgroundColor: "rgba(0, 0, 0, 0.6)", 
     paddingBottom: 10,
     borderRadius: 8,
   },
@@ -166,15 +166,15 @@ const styles = StyleSheet.create({
   flatListContent: {
     flexDirection: 'column',
     justifyContent: 'space-between',
-    marginTop: 120, // Adjusted for navbar space
+    marginTop: 120, 
   },
   manhwaItem: {
     flex: 1,
-    margin: 5, // Reduced margin to bring items closer together
+    margin: 5, 
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 12,
-    backgroundColor: "#333", // Dark background for items
+    backgroundColor: "#333", 
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
@@ -182,23 +182,23 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   manhwaImage: {
-    width: 130,  // Increased image size
+    width: 130, 
     height: 180,
     borderRadius: 8,
-    resizeMode: "cover",  // Ensures the image covers the space within the image container
+    resizeMode: "cover",
     marginBottom: 5,
   },
   manhwaTitle: {
     marginTop: 5,
     textAlign: "center",
     fontWeight: "bold",
-    color: "#fff",  // White text for readability
+    color: "#fff", 
   },
   logoutButton: {
     position: "absolute",
     bottom: 20,
     right: 20,
-    backgroundColor: "#ff4d4d",  // Red logout button
+    backgroundColor: "#ff4d4d",  
     paddingVertical: 15,
     paddingHorizontal: 20,
     borderRadius: 50,
@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   logoutText: {
-    color: "white",  // White text for logout button
+    color: "white",  
     fontWeight: "bold",
     fontSize: 18,
   },

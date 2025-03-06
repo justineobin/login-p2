@@ -19,7 +19,7 @@ export default function LoginScreen() {
       );
       if (response.data && response.data.token) {
         await AsyncStorage.setItem("token", response.data.token);
-        // Navigate to the home route
+        
         router.replace("/home");
       } else {
         Alert.alert("Login Failed", "No token received from the server");
@@ -74,10 +74,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
-    backgroundColor: "#000",  // Dark background
-  },
+    backgroundColor: "#000",  
   title: {
-    fontSize: 36, // Increased font size for the title
+    fontSize: 36, 
     fontWeight: "bold",
     color: "#fff",
     marginBottom: 40,
@@ -89,18 +88,18 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 15,
     paddingLeft: 10,
-    color: "#fff",  // White text
-    borderRadius: 8,  // Rounded corners for inputs
+    color: "#fff",  
+    borderRadius: 8,  
   },
   loginButton: {
-    backgroundColor: "#ff4d4d",  // Red button
+    backgroundColor: "#ff4d4d", 
     paddingVertical: 12,
     borderRadius: 8,
     width: "80%",
     alignItems: "center",
   },
   disabledButton: {
-    backgroundColor: "#666",  // Darker color when disabled
+    backgroundColor: "#666",  
   },
   loginButtonText: {
     color: "#fff",
