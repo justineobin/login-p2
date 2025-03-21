@@ -19,7 +19,6 @@ export default function LoginScreen() {
       );
       if (response.data && response.data.token) {
         await AsyncStorage.setItem("token", response.data.token);
-        
         router.replace("/home");
       } else {
         Alert.alert("Login Failed", "No token received from the server");
@@ -43,7 +42,7 @@ export default function LoginScreen() {
         placeholder="Username"
         placeholderTextColor="#bbb"
       />
-      
+
       <TextInput
         value={password}
         onChangeText={setPassword}
@@ -64,6 +63,14 @@ export default function LoginScreen() {
           <Text style={styles.loginButtonText}>Login</Text>
         )}
       </TouchableOpacity>
+
+      {/* Create User button */}
+      <TouchableOpacity
+        onPress={() => router.push("/createUser")} // Make sure you're using correct routing
+        style={styles.createUserButton}
+      >
+        <Text style={styles.createUserButtonText}>Don't have an account? Create one</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -77,7 +84,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#000",
   },
   title: {
-    fontSize: 36, 
+    fontSize: 36,
     fontWeight: "bold",
     color: "#fff",
     marginBottom: 40,
@@ -89,22 +96,29 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 15,
     paddingLeft: 10,
-    color: "#fff",  
-    borderRadius: 8,  
+    color: "#fff",
+    borderRadius: 8,
   },
   loginButton: {
-    backgroundColor: "#ff4d4d", 
+    backgroundColor: "#ff4d4d",
     paddingVertical: 12,
     borderRadius: 8,
     width: "80%",
     alignItems: "center",
   },
   disabledButton: {
-    backgroundColor: "#666",  
+    backgroundColor: "#666",
   },
   loginButtonText: {
     color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
+  },
+  createUserButton: {
+    marginTop: 20,
+  },
+  createUserButtonText: {
+    color: "#fff",
+    fontSize: 16,
   },
 });
