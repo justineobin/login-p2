@@ -21,19 +21,19 @@ const AddUser: React.FC<AddUserProps> = ({ navigation }) => {
   const handleCreateUser = async () => {
     setLoading(true);
     try {
-      // Log inputs for debugging
+
       console.log("Creating user with", username, password);
 
-      // Call the createUser function
+
       await createUser(username, password);
       
       // Show success alert
       Alert.alert('Success', 'User Created Successfully');
       
-      // Navigate back after successful creation
+    
       navigation.goBack();  
     } catch (error: any) {
-      // Log error if occurs and show alert to user
+
       console.log("Error while creating user:", error.message);
       Alert.alert('Error', error.message || 'Failed to create user');
     } finally {
