@@ -10,6 +10,7 @@ type RootStackParamList = {
   EditUser: { id: number };
 };
 
+
 type EditUserNavigationProp = StackNavigationProp<RootStackParamList, 'EditUser'>;
 type EditUserRouteProp = RouteProp<RootStackParamList, 'EditUser'>;
 

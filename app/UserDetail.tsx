@@ -9,7 +9,6 @@ interface User {
 
 }
 
-
 type RootStackParamList = {
   UserDetail: { id: number };
 };

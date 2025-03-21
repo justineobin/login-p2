@@ -5,7 +5,6 @@ const API_URL = 'https://devapi-618v.onrender.com/api/';
 
 const api = axios.create({ baseURL: API_URL });
 
-// Interceptor to add authorization token to requests
 api.interceptors.request.use(async (config) => {
     const token = await AsyncStorage.getItem('token');
     if (token) config.headers.Authorization = `Bearer ${token}`;
