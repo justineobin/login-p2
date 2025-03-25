@@ -31,7 +31,7 @@ const EditUser: React.FC<Props> = ({ route, navigation }) => {
   const handleUpdateUser = async () => {
     try {
   
-      await updateUser(id, username);
+      await updateUser(username);
       Alert.alert('Success', 'User updated');
       navigation.goBack();
     } catch (error) {
