@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useLayoutEffect, useState, useEffect } from "react";
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, TextInput, Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 
+
+// Manhwa images (your images...)
 const manhwa1 = require("../app/img/1.jpg");
 const manhwa2 = require("../app/img/2.jpg");
 const manhwa3 = require("../app/img/3.png");
@@ -34,8 +36,15 @@ const manhwa28 = require("../app/img/28.jpg");
 const manhwa29 = require("../app/img/29.jpg");
 const manhwa30 = require("../app/img/30.jpg");
 
-const featuredManhwa = [
-  { id: "1", title: "GREATEST STATE DEVELOPER", image: manhwa1 },
+// Type for the manhwa
+interface Manhwa {
+  id: string;
+  title: string;
+  image: any;
+}
+
+const featuredManhwa: Manhwa[] = [
+{ id: "1", title: "GREATEST STATE DEVELOPER", image: manhwa1 },
   { id: "2", title: "SOLO LEVELING", image: manhwa2 },
   { id: "3", title: "RETURN OF THE MOUNT HUA SECT", image: manhwa3 },
   { id: "4", title: "ELECEED", image: manhwa4 },
@@ -64,14 +73,15 @@ const featuredManhwa = [
   { id: "27", title: "PRINCESS", image: manhwa27 },
   { id: "28", title: "UNHOLY BLOOD", image: manhwa28 },
   { id: "29", title: "BUSINESS PROPOSAL", image: manhwa29 },
-  { id: "30", title: "YOU AND I", image: manhwa30 },
+  { id: "30", title: "YOU AND I", image: manhwa30 }
 ];
 
-const HomeScreen = () => {
-  const [searchQuery, setSearchQuery] = useState("");
+const HomeScreen: React.FC = () => {
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [drawerVisible, setDrawerVisible] = useState(false); // State for drawer visibility
   const router = useRouter();
 
-  const handleLogout = async () => {
+  const handleLogout = async (): Promise<void> => {
     try {
       await AsyncStorage.removeItem("token");
       router.replace("/login");
@@ -85,12 +95,28 @@ const HomeScreen = () => {
     item.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const renderManhwaItem = ({ item }) => (
+  const renderManhwaItem = ({ item }: { item: Manhwa }) => (
     <View style={styles.manhwaItem}>
       <Image source={item.image} style={styles.manhwaImage} />
       <Text style={styles.manhwaTitle}>{item.title}</Text>
     </View>
   );
+
+  const toggleDrawer = () => {
+    setDrawerVisible(!drawerVisible);
+  };
+
+  // Function to handle navigation to the Profile screen
+  const navigateToProfile = (userId: string) => {
+    setDrawerVisible(false);
+    router.push(`/profile?id=${userId}`);
+  };
+
+  // Function to handle navigation to the Settings screen
+  const navigateToSettings = () => {
+    setDrawerVisible(false);
+    router.push("/settings");
+  };
 
   return (
     <View style={styles.container}>
@@ -109,14 +135,42 @@ const HomeScreen = () => {
         data={filteredManhwa}
         renderItem={renderManhwaItem}
         keyExtractor={(item) => item.id}
-        numColumns={2} // Updated to 2 columns per row
+        numColumns={2}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.flatListContent}
       />
 
-      <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
-        <Text style={styles.logoutText}>Logout</Text>
+      {/* Drawer Menu Button */}
+      <TouchableOpacity style={styles.drawerButton} onPress={toggleDrawer}>
+        <Text style={styles.drawerButtonText}>☰</Text>
       </TouchableOpacity>
+
+      {/* Drawer Menu */}
+      {drawerVisible && (
+        <View style={styles.drawerMenu}>
+          <TouchableOpacity
+            style={styles.menuItem}
+            onPress={() => {
+              const userId = "1"; // Replace with the actual user ID from your app logic
+              navigateToProfile(userId);
+            }}
+          >
+            <Text style={styles.menuItemText}>Profile</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.menuItem}
+            onPress={handleLogout}
+          >
+            <Text style={styles.menuItemText}>Logout</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.menuItem}
+            onPress={navigateToSettings}
+          >
+            <Text style={styles.menuItemText}>Settings</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 };
@@ -172,8 +226,8 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   manhwaImage: {
-    width: 160, // Adjusted for 2 per row
-    height: 220, // Adjusted height to fit the 2-column layout
+    width: 160,
+    height: 220,
     borderRadius: 8,
     resizeMode: "cover",
     marginBottom: 5,
@@ -184,24 +238,37 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#fff",
   },
-  logoutButton: {
+  drawerButton: {
     position: "absolute",
-    bottom: 20,
+    top: 40,
     right: 20,
-    backgroundColor: "#ff4d4d",
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    borderRadius: 50,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 4,
-    elevation: 5,
+    padding: 10,
+    zIndex: 10,
   },
-  logoutText: {
-    color: "white",
-    fontWeight: "bold",
+  drawerButtonText: {
+    color: "#fff",
+    fontSize: 24,
+  },
+  drawerMenu: {
+    position: "absolute",
+    top: 70,
+    right: 20,
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    zIndex: 10,
+  },
+  menuItem: {
+    color: "#fff",
     fontSize: 18,
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#fff",
+  },
+  menuItemText: {
+    fontSize: 18,
+    color: "#fff",
   },
 });
 

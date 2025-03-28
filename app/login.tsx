@@ -67,7 +67,7 @@ export default function LoginScreen() {
 
       {/* Create User button */}
       <TouchableOpacity
-        onPress={() => router.push("/createUser")} // Make sure you're using correct routing
+        onPress={() => router.push("/createUser")} 
         style={styles.createUserButton}
       >
         <Text style={styles.createUserButtonText}>Don't have an account? Create one</Text>
